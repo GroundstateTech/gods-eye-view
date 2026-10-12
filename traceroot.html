@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Groundstate TraceRoot: a local research workspace for public profile evidence, reviewed relationships and sourced locations."
+    />
+    <title>TraceRoot · Groundstate Technology</title>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <a class="brand" href="/traceroot.html"
+          ><span class="brandmark">⌖</span
+          ><span>GROUNDSTATE<small>TRACEROOT / RESEARCH SYSTEM</small></span></a
+        ><button id="new-case" class="primary">＋ New case</button>
+        <div class="rail-label">
+          YOUR WORKSPACE <span id="case-count">0</span>
+        </div>
+        <div id="cases" class="case-list"></div>
+        <div class="rail-footer">
+          <span class="online-dot"></span> LOCAL WORKSPACE<br /><a href="/"
+            >Open Gods Eye View ↗</a
+          ><button id="settings-open">Tools &amp; connections</button
+          ><span>Candidate matches require review.</span>
+        </div>
+      </aside>
+      <main>
+        <header class="topbar">
+          <div>
+            <span class="eyebrow">PUBLIC EVIDENCE / HUMAN REVIEW</span>
+            <h1 id="case-title">Follow the evidence.</h1>
+            <p id="case-purpose">
+              Start with an alias. Keep the sources. Review before you connect.
+            </p>
+          </div>
+          <div class="toolbar">
+            <button id="export" disabled>Export ▾</button
+            ><button id="delete-case" disabled>Delete case</button>
+          </div>
+        </header>
+        <section id="welcome" class="welcome">
+          <span class="crosshair">⌖</span>
+          <h2>A clear path through the noise.</h2>
+          <p>
+            Find public profile candidates, compare independent checks, and
+            build a sourced picture in one local workspace.
+          </p>
+          <div class="steps">
+            <div>
+              <b>01</b>
+              <h3>Discover</h3>
+              <p>Sherlock finds candidate profiles.</p>
+            </div>
+            <div>
+              <b>02</b>
+              <h3>Compare</h3>
+              <p>Maigret checks broader coverage.</p>
+            </div>
+            <div>
+              <b>03</b>
+              <h3>Review &amp; map</h3>
+              <p>You confirm relationships and public locations.</p>
+            </div>
+          </div>
+          <button id="welcome-new" class="primary">
+            Start a research case →
+          </button>
+          <p class="muted">
+            No account required. Your cases stay on this computer.
+          </p>
+        </section>
+        <div id="workspace" hidden>
+          <section class="searchbar">
+            <div>
+              <span class="eyebrow">ACTIVE ALIAS</span
+              ><strong id="alias"></strong>
+            </div>
+            <label
+              >Search coverage<select id="breadth">
+                <option value="quick">
+                  Quick · 6 Sherlock / 40 Maigret sites
+                </option>
+                <option value="expanded">
+                  Expanded · all Sherlock / 500 Maigret
+                </option>
+              </select></label
+            ><label
+              >Run<select id="provider">
+                <option value="pipeline">Sherlock → Maigret</option>
+                <option value="sherlock">Sherlock only</option>
+                <option value="maigret">Maigret only</option>
+              </select></label
+            ><button id="search" class="primary">Start search ↗</button>
+          </section>
+          <div id="job-status" class="statusline" role="status"></div>
+          <section class="metrics">
+            <div>
+              <b id="metric-candidates">0</b><span>PROFILE CANDIDATES</span>
+            </div>
+            <div>
+              <b id="metric-confirmed">0</b><span>REVIEWED MATCHES</span>
+            </div>
+            <div>
+              <b id="metric-sources">0</b><span>DUAL-PROVIDER URLS</span>
+            </div>
+            <div>
+              <b id="metric-locations">0</b><span>SOURCED LOCATIONS</span>
+            </div>
+          </section>
+          <nav class="tabs" aria-label="Case views">
+            <button data-tab="evidence" class="selected">Evidence</button
+            ><button data-tab="graph">Relationships</button
+            ><button data-tab="map">Map</button
+            ><button data-tab="exposure">Account exposure</button
+            ><button data-tab="diagnostics">Diagnostics</button
+            ><button data-tab="notes">Notes</button>
+          </nav>
+          <section id="tab-evidence" class="view">
+            <div class="section-head">
+              <h2>Profile evidence</h2>
+              <div class="filters">
+                <input
+                  id="filter"
+                  aria-label="Filter findings"
+                  placeholder="Filter by site, URL or provider"
+                /><select id="review-filter" aria-label="Review status">
+                  <option value="all">All results</option>
+                  <option value="candidate">Candidates</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+            <p class="muted">
+              A matching username is a lead. Two tools finding the same URL is
+              corroboration of that URL, not proof of identity.
+            </p>
+            <div id="findings"></div>
+          </section>
+          <section id="tab-graph" class="view" hidden>
+            <div class="section-head">
+              <h2>Alias → public profiles</h2>
+              <span class="muted">Select a node to inspect its evidence.</span>
+            </div>
+            <div class="graph-legend">
+              <span>● Candidate</span
+              ><span class="confirmed">● Reviewed match</span
+              ><span class="rejected">● Rejected</span>
+            </div>
+            <canvas id="graph" aria-label="Profile relationship graph"></canvas>
+            <div id="graph-detail" class="muted"></div>
+          </section>
+          <section id="tab-map" class="view" hidden>
+            <div class="section-head">
+              <h2>Documented public locations</h2>
+              <button id="add-location">＋ Add sourced location</button>
+            </div>
+            <p class="muted">
+              Map organizations, public facilities and owned assets. Profile
+              matches are never automatically geolocated.
+            </p>
+            <div id="globe"></div>
+            <div id="map-status" role="status"></div>
+            <div id="locations" class="card-list"></div>
+          </section>
+          <section id="tab-exposure" class="view" hidden>
+            <h2>Check accounts you control</h2>
+            <p class="muted">
+              Verify your domain in Tools &amp; connections. HackCheck reports
+              presence; Lookups.io reports count metadata. Neither result
+              returns passwords or private people records.
+            </p>
+            <form id="exposure-form" class="form-panel">
+              <label
+                >Company account email<input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="you@your-domain.com" /></label
+              ><label
+                >Provider<select name="provider">
+                  <option value="hackcheck">
+                    HackCheck · exposure presence
+                  </option>
+                  <option value="lookups">
+                    Lookups.io · record-count summary
+                  </option>
+                </select></label
+              ><label class="check"
+                ><input name="authorized" type="checkbox" required />I control
+                this account or have explicit authorization to check it.</label
+              ><button class="primary">Check account</button>
+            </form>
+            <div id="exposures" class="card-list"></div>
+          </section>
+          <section id="tab-diagnostics" class="view" hidden>
+            <h2>Opt-in connection diagnostics</h2>
+            <p class="muted">
+              A clearly labeled, one-use page asks for consent before saving the
+              connection IP and browser header. No redirect, geolocation or
+              hidden collection. Links expire after 24 hours and work only on
+              this local server.
+            </p>
+            <form id="diagnostic-form" class="inline-form">
+              <input
+                name="title"
+                maxlength="100"
+                required
+                aria-label="Diagnostic title"
+                placeholder="Diagnostic session title"
+              /><button>Create consent link</button>
+            </form>
+            <div id="diagnostics" class="card-list"></div>
+          </section>
+          <section id="tab-notes" class="view" hidden>
+            <h2>Research notes</h2>
+            <p class="muted">
+              Separate observations from hypotheses. Keep source links and
+              explain uncertainty.
+            </p>
+            <textarea
+              id="notes"
+              maxlength="10000"
+              rows="14"
+              aria-label="Case notes"
+            ></textarea
+            ><button id="save-notes" class="primary">Save notes</button>
+          </section>
+        </div>
+        <footer class="main-footer">
+          GROUNDSTATE TECHNOLOGY LLC
+          <span>TRACEROOT · Public sources. Traceable conclusions.</span>
+        </footer>
+      </main>
+    </div>
+    <dialog id="case-dialog">
+      <form id="case-form">
+        <div class="section-head">
+          <h2>New research case</h2>
+          <button type="button" data-close>×</button>
+        </div>
+        <label
+          >Case title<input
+            name="title"
+            maxlength="100"
+            required
+            placeholder="Project or research question" /></label
+        ><label
+          >Public username<input
+            name="alias"
+            maxlength="64"
+            pattern="[A-Za-z0-9][A-Za-z0-9._-]*"
+            required
+            placeholder="One alias to investigate" /></label
+        ><label
+          >Purpose &amp; scope<textarea
+            name="purpose"
+            maxlength="500"
+            required
+            placeholder="What are you researching, and what is in scope?"
+          ></textarea></label
+        ><button class="primary">Create case</button>
+      </form>
+    </dialog>
+    <dialog id="location-dialog">
+      <form id="location-form">
+        <div class="section-head">
+          <h2>Add a sourced location</h2>
+          <button type="button" data-close>×</button>
+        </div>
+        <label>Label<input name="label" required maxlength="100" /></label
+        ><label
+          >Location type<select name="kind">
+            <option value="organization">Public organization</option>
+            <option value="public-facility">Public facility</option>
+            <option value="owned-asset">Owned asset</option>
+          </select></label
+        >
+        <div class="inline-form">
+          <label
+            >Latitude<input
+              name="lat"
+              type="number"
+              step="any"
+              min="-90"
+              max="90"
+              required /></label
+          ><label
+            >Longitude<input
+              name="lon"
+              type="number"
+              step="any"
+              min="-180"
+              max="180"
+              required
+          /></label>
+        </div>
+        <label
+          >Public source URL<input
+            name="source"
+            type="url"
+            required
+            placeholder="https://..." /></label
+        ><label
+          >Evidence for this location<textarea
+            name="note"
+            required
+            maxlength="500"
+          ></textarea></label
+        ><button class="primary">Add to map</button>
+      </form>
+    </dialog>
+    <dialog id="review-dialog">
+      <form id="review-form">
+        <div class="section-head">
+          <h2>Review candidate</h2>
+          <button type="button" data-close>×</button>
+        </div>
+        <p id="review-url" class="muted"></p>
+        <input type="hidden" name="id" /><label
+          >Decision<select name="review">
+            <option value="candidate">Keep as candidate</option>
+            <option value="confirmed">Confirmed by reviewed evidence</option>
+            <option value="rejected">Reject match</option>
+          </select></label
+        ><label
+          >Evidence &amp; reasoning<textarea
+            name="note"
+            required
+            maxlength="1000"
+            placeholder="Why does this profile match—or not match—the research subject?"
+          ></textarea></label
+        ><button class="primary">Save review</button>
+      </form>
+    </dialog>
+    <dialog id="settings-dialog">
+      <div class="section-head">
+        <h2>Tools &amp; connections</h2>
+        <button data-close>×</button>
+      </div>
+      <div id="tool-health"></div>
+      <h3>Verify a domain you control</h3>
+      <form id="domain-form" class="inline-form">
+        <input
+          name="domain"
+          required
+          placeholder="your-company.com"
+          aria-label="Owned domain"
+        /><button>Create TXT challenge</button>
+      </form>
+      <div id="domains" class="card-list"></div>
+      <p class="muted">
+        Add API keys to your ignored local .env:
+        <code>TRACEROOT_HACKCHECK_KEY</code> and
+        <code>TRACEROOT_LOOKUPS_KEY</code>. Restart after changing them. API
+        subscriptions and provider IP authorization may be required.
+      </p>
+      <h3>Built on open-source work</h3>
+      <p class="muted">
+        Groundstate TraceRoot integrates
+        <a
+          href="https://github.com/sherlock-project/sherlock"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Sherlock</a
+        >,
+        <a
+          href="https://github.com/soxoj/maigret"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Maigret</a
+        >
+        and
+        <a
+          href="https://github.com/bilawalsidhu/gods-eye-view"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Gods Eye View</a
+        >. Original licenses and credits remain in the repository.
+      </p>
+    </dialog>
+    <dialog id="export-dialog">
+      <div class="section-head">
+        <h2>Export this case</h2>
+        <button data-close>×</button>
+      </div>
+      <p class="muted">
+        Exports contain this case's reviewed public evidence, owned-account
+        summaries and notes. Diagnostic connection details stay out of exports.
+      </p>
+      <div class="export-options">
+        <button data-export="json">Case JSON</button
+        ><button data-export="csv">Profiles CSV</button
+        ><button data-export="md">Research report</button>
+      </div>
+    </dialog>
+    <div id="toast" role="status" hidden></div>
+    <script type="module" src="/src/traceroot/app.js"></script>
+  </body>
+</html>

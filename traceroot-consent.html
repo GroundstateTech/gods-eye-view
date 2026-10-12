@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Consent-based diagnostic · Groundstate TraceRoot</title>
+  </head>
+  <body>
+    <main style="max-width: 680px; margin: 8vh auto">
+      <span class="eyebrow">GROUNDSTATE TECHNOLOGY / TRACEROOT</span>
+      <h1>Connection diagnostic</h1>
+      <p id="diagnostic-title"></p>
+      <div class="card">
+        <h2>You choose what gets recorded.</h2>
+        <p>
+          If you consent, this diagnostic stores your connection IP address,
+          browser User-Agent header, and submission time with the local research
+          case. It does not collect your location, passwords or browsing
+          history, and it does not redirect you.
+        </p>
+        <p>
+          Opening this page does not create a diagnostic record. Submitted data
+          and this link expire after 24 hours. The operator can delete them
+          earlier.
+        </p>
+        <label class="check"
+          ><input id="consent" type="checkbox" />I consent to sending this
+          connection diagnostic to the operator.</label
+        >
+        <p>
+          <button id="submit-diagnostic" class="primary" disabled>
+            Submit diagnostic
+          </button>
+        </p>
+        <p id="message" role="status"></p>
+      </div>
+    </main>
+    <script type="module" src="/src/traceroot/consent.js"></script>
+  </body>
+</html>
