@@ -21,10 +21,3 @@ qa-artifacts/
 3d-models/
 pinokio/ENVIRONMENT
 pinokio/.installed
-
-# TraceRoot private local case database and Python tools
-.traceroot/
-.traceroot-venv/
-
-# Python adapter bytecode
-scripts/traceroot/__pycache__/

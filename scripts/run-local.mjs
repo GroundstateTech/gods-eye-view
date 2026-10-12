@@ -11,19 +11,13 @@ process.chdir(root);
 async function main() {
   const args = process.argv.slice(2);
   if (args.includes('--help')) {
-    console.log(
-      'Usage: run.bat | bash run.sh [--reinstall] [--no-open] [--traceroot]',
-    );
+    console.log('Usage: run.bat | bash run.sh [--reinstall] [--no-open]');
     console.log(
       'Installs locked dependencies as needed and starts the local app.',
     );
     return;
   }
-  if (
-    args.some(
-      (arg) => !['--reinstall', '--no-open', '--traceroot'].includes(arg),
-    )
-  ) {
+  if (args.some((arg) => !['--reinstall', '--no-open'].includes(arg))) {
     throw new Error('Unknown option. Use --help for launcher options.');
   }
   const [major, minor] = process.versions.node.split('.').map(Number);
@@ -72,11 +66,7 @@ async function main() {
       host: 'localhost',
       port: 4173,
       strictPort: false,
-      open: args.includes('--no-open')
-        ? false
-        : args.includes('--traceroot')
-          ? '/traceroot.html'
-          : true,
+      open: !args.includes('--no-open'),
     },
   });
   await server.listen();

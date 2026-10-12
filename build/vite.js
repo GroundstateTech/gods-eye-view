@@ -93,15 +93,7 @@ export function createBrowserViteConfig({
       // build/allowedHosts.js); IP addresses are always accepted.
       allowedHosts: [...allowedHosts],
       fs: {
-        deny: [
-          '.env',
-          '.env.*',
-          '*.{crt,pem}',
-          '**/.git/**',
-          '**/ENVIRONMENT',
-          '**/.traceroot/**',
-          '**/.traceroot-venv/**',
-        ],
+        deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/ENVIRONMENT'],
       },
       // These headers protect the document containing Provider Settings and
       // give the whole page a real Content-Security-Policy (BROWSER_CSP).
@@ -120,15 +112,6 @@ export function createBrowserViteConfig({
         mapillaryToken ?? '',
       ),
     },
-    build: {
-      chunkSizeWarningLimit: 1500,
-      rollupOptions: {
-        input: {
-          main: 'index.html',
-          traceroot: 'traceroot.html',
-          consent: 'traceroot-consent.html',
-        },
-      },
-    },
+    build: { chunkSizeWarningLimit: 1500 },
   };
 }
