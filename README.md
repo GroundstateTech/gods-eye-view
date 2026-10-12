@@ -117,6 +117,30 @@ locked dependencies, finds a free local port, and opens the app.
 Version 8.2 fixes the launcher installation issue;
 [details from the Pinokio maintainer](https://pinokio.co/posts/01m1m4p9xxm3qw7dnnpj2wr93g).
 
+### Groundstate fork — easy local launch
+
+Install **Node.js 24.x (24.14.0 or later) or 26.x** from
+[nodejs.org](https://nodejs.org/), then download and extract this fork
+(or clone `https://github.com/GroundstateTech/gods-eye-view.git`).
+
+- **Windows:** double-click `run.bat` in the extracted folder.
+- **Linux / macOS:** open a terminal in that folder and run `bash run.sh`.
+  Git clones also support `./run.sh`.
+
+The launcher installs the locked dependencies on first run, then opens the app
+at **http://localhost:4173**. If that port is busy, it selects the next available
+port and prints the actual address. Keep the terminal open; **Ctrl+C** stops
+the server. The app and its provider API routes run together on localhost.
+First installation requires internet; live data also requires connectivity.
+No provider keys are required to start. Add optional keys through **POWER UP**;
+existing `.env` settings are preserved.
+
+Dependencies are refreshed automatically when the manifest, lockfile, or Node
+runtime changes. To force a clean dependency install, run `run.bat --reinstall`
+or `bash run.sh --reinstall`. Use `--no-open` to skip opening the browser.
+The launcher skips Puppeteer's testing-only browser download; if you later need
+browser QA, install it separately with `npx puppeteer browsers install chrome`.
+
 ### Path 2 — Terminal / coding agent
 
 Use **Node.js 24.x (24.14.0 or later) or 26.x**. The setup doctor warns about

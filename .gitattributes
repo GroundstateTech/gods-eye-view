@@ -18,3 +18,6 @@
 *.glb binary
 *.wav binary
 *.pbf binary
+
+# Windows command launchers use native line endings.
+*.bat text eol=crlf
