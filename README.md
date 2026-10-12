@@ -1,3 +1,7 @@
+> **Groundstate TraceRoot:** the integrated local research workspace now lives
+> in this fork. Run `run-traceroot.bat` or `bash run-traceroot.sh`.
+> [Setup, workflow, providers, scope and credits](docs/TRACEROOT.md).
+
 <div align="center">
 
 # 🌐 God's Eye View

@@ -56,6 +56,9 @@ jobs:
       - name: Run unit tests
         run: npm test
 
+      - name: Check TraceRoot Python report adapters
+        run: python3 scripts/traceroot/test_worker.py
+
       - name: Build production bundle
         run: npm run build
 
